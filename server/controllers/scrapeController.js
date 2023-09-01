@@ -1,5 +1,5 @@
 import puppeteer from 'puppeteer';
-
+import { Single } from '../model/urlSchema.js';
 
 export const singleurlController = async (req, res) => {
   const { url } = req.body
@@ -77,6 +77,11 @@ export const singleurlController = async (req, res) => {
     }
 
     if (emailLinks.length > 0) {
+      const scrapedData = new Single({
+        url: url,
+        emailLinks: emailLinks,
+      });
+      await scrapedData.save();
       res.json({ emailLinks });
     } else {
       res.json({ message: 'No email links found.' });
