@@ -1,5 +1,6 @@
 import puppeteer from 'puppeteer';
 import { Single } from '../model/urlSchema.js';
+import { Multiple } from '../model/urlsSchema.js'
 
 export const singleurlController = async (req, res) => {
   const { url } = req.body
@@ -180,6 +181,11 @@ export const multipleurlController = async (req, res) => {
     }
     const uniqueEmails = [...scrapedEmails];
     if (uniqueEmails.length > 0) {
+      const scrapesData = new Multiple({
+        urls: urls,
+        emailLinks: uniqueEmails,
+      });
+      await scrapesData.save();
       res.json({ emailLinks: uniqueEmails });
     } else {
       res.json({ message: 'No email links found.' });
