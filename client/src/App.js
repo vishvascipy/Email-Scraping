@@ -10,7 +10,7 @@ function App() {
       <BrowserRouter> 
         <Routes>
           <Route path="Multiurl" element={<MultiScrap />} />
-          <Route path="scrape" element={<Scrap />} />
+          <Route path="/" element={<Scrap />} />
         </Routes>
       </BrowserRouter>
     </>
