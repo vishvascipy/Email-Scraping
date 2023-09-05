@@ -66,21 +66,19 @@ function Scrap() {
                     </button>
             }
 
-            <div className="mt-4 ">
+            <div className="mt-4">
                 <h3>Scraped Emails:</h3>
                 <div className='email-container'>
-
-                    <p>
-                        {
-                            (emailLinks.length > 0)
-                            && emailLinks.map((emailLinks, index) => (
-                                <span key={index}>{emailLinks}<br /></span>
-                            ))
-                        }
-                        <p>{err && "No emails found try again"}</p>
-                    </p>
+                    {emailLinks && emailLinks.length > 0 ? (
+                        emailLinks.map((emailLink, index) => (
+                            <span key={index}>{emailLink}<br /></span>
+                        ))
+                    ) : (
+                        err ? <p>No emails found. Please try again.</p> : null
+                    )}
                 </div>
             </div>
+
         </div>
     );
 }
