@@ -96,142 +96,10 @@ export const singleurlController = async (req, res) => {
 
 
 
-// import express from 'express';
-// import bodyParser from 'body-parser';
-// import XLSX from 'xlsx';
-// import fs from 'fs';
-
-// const app = express();
-// app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(bodyParser.json());
-
-// export const multipleurlController = async (req, res) => {
-//     try {
-//         const fileContent = req.body.file; // Corrected to access the uploaded file content
-//         const urls = fileContent.split('\n');
-//         console.log(urls);
-
-//         const browser = await puppeteer.launch();
-//         const scrapedEmails = new Set();
-
-//         const blockedDomains = ['www.facebook.com', 'linkedin.com', 'instagram.com', 'youtube.com', 'tel', 'twitter.com'];
-//         const blockedPaths = ['/tel:'];
-
-//         for (const url of urls) {
-//             const visitedLinks = new Set();
-//             const allEmailLinks = [];
-
-//             const mainPage = await browser.newPage();
-//             await mainPage.goto(url, {
-//                 waitUntil: 'domcontentloaded',
-//             });
-
-//             const pageLinks = await mainPage.evaluate(() => {
-//                 const links = Array.from(document.querySelectorAll('a'));
-//                 return links.map(link => link.href);
-//             });
-
-//             for (const link of pageLinks) {
-//                 if (
-//                     !visitedLinks.has(link) &&
-//                     !blockedDomains.some(domain => link.includes(domain)) &&
-//                     !blockedPaths.some(path => link.includes(path)) &&
-//                     !link.includes('#') &&   // Exclude URLs with fragments
-//                     !/\b\d{10,}\b/.test(link) // Exclude URLs with phone numbers
-//                 ) {
-//                     visitedLinks.add(link);
-//                     console.log(link);
-//                     if (link.includes('mailto:')) {
-//                         const email = link.replace('mailto:', '');
-//                         if (!scrapedEmails.has(email)) {
-//                             scrapedEmails.add(email);
-//                             allEmailLinks.push(email);
-//                         }
-//                     } else if (link.startsWith('http') || link.startsWith('www')) {
-//                         let newPage;
-
-//                         try {
-//                             newPage = await browser.newPage();
-//                             await newPage.goto(link, {
-//                                 waitUntil: 'domcontentloaded',
-//                             });
-
-//                             const normalizedNewPageURL = new URL(newPage.url());
-//                             const normalizedLink = new URL(link);
-
-//                             if (normalizedNewPageURL.href === normalizedLink.href) {
-//                                 const pageEmailLinks = await newPage.evaluate(() => {
-//                                     const links = Array.from(document.querySelectorAll('a[href^="mailto:"]'));
-//                                     return links.map(link => link.getAttribute('href').replace('mailto:', ''));
-//                                 });
-
-//                                 for (const email of pageEmailLinks) {
-//                                     if (!scrapedEmails.has(email)) {
-//                                         scrapedEmails.add(email);
-//                                         allEmailLinks.push(email);
-//                                     }
-//                                 }
-//                             }
-//                         } catch (error) {
-//                             console.error(`Error while processing link ${link}:`, error);
-//                         } finally {
-//                             if (newPage) {
-//                                 await newPage.close();
-//                             }
-//                         }
-//                     }
-//                 }
-//             }
-
-//             await mainPage.close();
-//         }
-
-//         const uniqueEmails = [...scrapedEmails];
-
-//         if (uniqueEmails.length > 0) {
-//             // Create a new Workbook
-//             const wb = XLSX.utils.book_new();
-
-//             // Create a worksheet
-//             const ws = XLSX.utils.json_to_sheet(uniqueEmails.map(email => ({ Email: email })));
-
-//             // Add the worksheet to the workbook
-//             XLSX.utils.book_append_sheet(wb, ws, 'Emails');
-
-//             // Define the filename for the Excel file
-//             const excelFileName = 'email_results.xlsx';
-
-//             // Save the workbook as an Excel file
-//             XLSX.writeFile(wb, excelFileName);
-
-//             // // Respond with the Excel file
-//             // res.download(excelFileName, (err) => {
-//             //     if (err) {
-//             //         // Handle any error that might occur during download
-//             //         console.error('Error sending Excel file:', err);
-//             //         res.status(500).json({ error: 'An error occurred while sending the Excel file.' });
-//             //     } else {
-//             //         // Clean up: delete the generated Excel file after sending
-//             //         fs.unlinkSync(excelFileName);
-//             //     }
-//             // });
-//         } else {
-//             res.json({ message: 'No email links found.' });
-//         }
-
-//         await browser.close();
-//     } catch (error) {
-//         console.error('Error:', error);
-//         res.status(500).json({ error: 'An error occurred while scraping.' });
-//     }
-// };
 
 
 
-
-
-
-
+//scrap emails from given multiple urls
 
 import express from 'express';
 import bodyParser from 'body-parser';
@@ -335,8 +203,6 @@ export const multipleurlController = async (req, res) => {
         res.status(500).json({ error: 'An error occurred while scraping.' });
     }
 };
-
-
 
 
 
