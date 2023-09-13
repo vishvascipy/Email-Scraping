@@ -17,6 +17,8 @@ export const verifyEmail = async (req, res) => {
       const MXRecord = result.map((item) => item.data);
       console.log(MXRecord);
 
+      
+
       const conclusion = {
         isValid: isVaild,
         isValidMXrecord: isValidMxRecord,
